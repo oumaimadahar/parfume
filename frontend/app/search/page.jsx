@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,30 +11,32 @@ import Footer from "@/components/footer";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [mounted, setMounted] = useState(false); // ✅ Pour éviter SSR
+  const query = searchParams?.get("q") || "";
 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // On ne rend la page qu'après le montage côté client
   useEffect(() => {
-    setMounted(true); // Le composant est monté côté client
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (!mounted) return; // Ne rien faire tant que le composant n'est pas monté
-    if (!query) return;
+    if (!mounted || !query) return;
 
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // Utiliser une URL publique pour l'API ou un proxy
-        const res = await axios.get("http://localhost:7007/api/products"); 
-        const allProducts = res.data.products || [];
+
+        // ⚠️ Remplace localhost par une URL publique si tu déploies sur Vercel
+        const res = await axios.get("http://localhost:7007/api/products");
+        const allProducts = res.data?.products || [];
 
         const filtered = allProducts.filter(
           (p) =>
-            p.name.toLowerCase().includes(query.toLowerCase()) ||
-            p.description.toLowerCase().includes(query.toLowerCase())
+            p.name?.toLowerCase().includes(query.toLowerCase()) ||
+            p.description?.toLowerCase().includes(query.toLowerCase())
         );
 
         setProducts(filtered);
@@ -50,6 +51,11 @@ export default function SearchPage() {
     fetchProducts();
   }, [mounted, query]);
 
+  if (!mounted) {
+    // Optionnel : afficher rien tant que le composant n'est pas monté
+    return null;
+  }
+
   return (
     <>
       <HeaderTop />
@@ -57,7 +63,7 @@ export default function SearchPage() {
 
       <div className="container mx-auto px-4 py-10">
         <h1 className="text-3xl font-semibold mb-6 text-center">
-          Results for: <span className="text-[#e3ac28]">{query}</span>
+          Résultats pour: <span className="text-[#e3ac28]">{query}</span>
         </h1>
 
         {loading ? (
@@ -106,7 +112,7 @@ export default function SearchPage() {
                     href={`/products/${product._id}`}
                     className="mt-4 inline-block bg-[#e3ac28] text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition-all"
                   >
-                    View Product
+                    Voir le produit
                   </Link>
                 </div>
               </div>
