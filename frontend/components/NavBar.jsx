@@ -114,11 +114,11 @@ const NavBar = () => {
                     Women
                   </Link>
                   <Link
-                    href="/shop/men"
+                    href="/shop/man"
                     className="block px-4 py-2 hover:text-[#e3ac28]"
                     onClick={() => setIsOpen(false)}
                   >
-                    Men
+                    Man
                   </Link>
                   <Link
                     href="/shop/bakhoor"
@@ -247,7 +247,7 @@ const NavBar = () => {
             {shopOpen && (
               <div className="flex flex-col ml-4 mt-2 gap-2">
                 <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/women">Women</Link>
-                <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/men">Men</Link>
+                <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/man">Man</Link>
                 <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/bakhoor">Bakhoor</Link>
                 <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/hair-perfumes">Hair Perfumes</Link>
                 <Link className="hover:text-[#e3ac28]" onClick={() => setIsOpen(false)} href="/shop/gift-sets">Gift Sets</Link>
