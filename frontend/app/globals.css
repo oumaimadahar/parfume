@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@layer components{
+  .header_top_icon_wrapper{
+    @apply  p-[8px] text-[14px] cursor-pointer hover:text-[#e3ac28] hover:bg-white
+  }
+  .navbar_link:hover {
+    color: #e3ac28;
+    transition: all 0.4s;
+}
+
+.navbar_link:hover::after {
+    position: absolute;
+    content: "";
+    background-color: #e3ac28;
+    height: 3px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    scale: 0;
+    transform-origin: left;
+    transition: all 0.4s;
+}
+
+.navbar_link:hover::after {
+    scale: 1;
+}
+}
