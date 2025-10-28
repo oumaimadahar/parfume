@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,26 +9,25 @@ import Navbar from "@/components/NavBar";
 import Footer from "@/components/footer";
 
 export default function SearchPage() {
-  const searchParams = useSearchParams();
-  const query = searchParams?.get("q") || "";
-
+  const [query, setQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  // On ne rend la page qu'après le montage côté client
+  // Récupérer la query depuis l'URL côté client
   useEffect(() => {
-    setMounted(true);
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q") || "";
+    setQuery(q);
   }, []);
 
   useEffect(() => {
-    if (!mounted || !query) return;
+    if (!query) return;
 
     const fetchProducts = async () => {
       try {
         setLoading(true);
 
-        // ⚠️ Remplace localhost par une URL publique si tu déploies sur Vercel
+        // ⚠️ Remplace par ton backend déployé
         const res = await axios.get("http://localhost:7007/api/products");
         const allProducts = res.data?.products || [];
 
@@ -49,12 +47,7 @@ export default function SearchPage() {
     };
 
     fetchProducts();
-  }, [mounted, query]);
-
-  if (!mounted) {
-    // Optionnel : afficher rien tant que le composant n'est pas monté
-    return null;
-  }
+  }, [query]);
 
   return (
     <>
